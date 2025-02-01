@@ -2,57 +2,66 @@ class Node:
     def __init__(self, data):
         self.__data = data
         self.__next = None
+        self.__prev = None
 
     def getData(self):
         return self.__data
     
     def getNext(self):
         return self.__next
+
+    def getPrev(self):
+        return self.__prev
     
     def setNext(self, next):
         self.__next = next
 
-class Queue:
+    def setPrev(self, prev):
+        self.__prev = prev
+
+
+class DoublyLinkedList:
     def __init__(self):
-        self.__front = None
-        self.__rear = None
+        self.__head = None
+        self.__tail = None
+        self.__current = None
 
     def isEmpty(self):
-        return self.__front is None and self.__rear is None
+        return self.__head is None and self.__tail is None
 
-    def enqueue(self, data):
+    def insert(self, data):
         new_node = Node(data)
-        if self.__rear is None:
-            self.__front = self.__rear = new_node
-            return
-        self.__rear.setNext(new_node)
-        self.__rear = new_node
-
-    def dequeue(self):
         if self.isEmpty():
-            print('Queue underflow.')
-            return
-        
-        temp = self.__front
-        self.__front = temp.getNext()
-        if self.__front is None:
-            self.__rear = None
-            
-        return temp.getData()
+            self.__head = self.__tail = new_node
+            self.__current = new_node
+        else:
+            new_node.setPrev(self.__tail)
+            self.__tail.setNext(new_node)
+            self.__tail = new_node
 
-    def peek(self):
-        if self.isEmpty():
-            print('Queue underflow.')
-            return
-        
-        return self.__front.getData()
+    def next(self):
+        if self.__current and self.__current.getNext():
+            self.__current = self.__current.getNext()
+            return self.__current.getData()
+        return None
+
+    def prev(self):
+        if self.__current and self.__current.getPrev():
+            self.__current = self.__current.getPrev()
+            return self.__current.getData()
+        return None
+
+    def current(self):
+        if self.__current:
+            return self.__current.getData()
+        return None
 
     def display(self):
         if self.isEmpty():
-            print("Queue is empty")
+            print("List is empty")
             return
-        current = self.__front
+        current = self.__head
         while current:
-            print(current.getData(), end=" -> ")
+            print(f"[ {current.getData()} ]", end=" <-> ")
             current = current.getNext()
         print("None")
