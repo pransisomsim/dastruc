@@ -12,6 +12,7 @@ def find_large_number(arr: list[int]) -> int:
 
 if __name__ == "__main__":
     arr = [5, 7, 2, 10, 28, 1]
-    print(find_large_number(arr))
+    print(arr)
+    print(f"max number: {find_large_number(arr)}")
     arr1 = []
     print(find_large_number(arr1))
